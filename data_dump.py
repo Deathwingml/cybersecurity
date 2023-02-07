@@ -5,7 +5,7 @@ import pandas as pd
 #MongoDB local host url to connect to the DB
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 
-DATA_FILE_PATH = "/config/workspace/cleaned_phishing_data.csv"
+DATA_FILE_PATH = "/config/workspace/smaller_cleaned_phishing_data"
 DATABASE_NAME = "cybersecurity"
 COLLECTION_NAME = "phishing_domain"
 
