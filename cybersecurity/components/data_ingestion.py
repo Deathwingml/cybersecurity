@@ -27,7 +27,7 @@ class DataIngestion:
                 database_name=self.data_ingestion_config.database_name, 
                 collection_name= self.data_ingestion_config.collection_name)
 
-            logging.info(f"save the data in feature store")
+            logging.info(f"replace na with np.NAN")
             #save data in feature store
             df.replace(to_replace = "na", value = np.NAN, inplace = True)
 

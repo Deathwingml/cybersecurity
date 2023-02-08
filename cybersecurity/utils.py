@@ -9,6 +9,7 @@ from cybersecurity.logger import logging
 
 
 def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.DataFrame:
+    
     """
     Description: This function return collection as dataframe
     =========================================================
