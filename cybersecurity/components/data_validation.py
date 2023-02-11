@@ -131,13 +131,13 @@ class DataValidation:
             test_df = self.drop_missing_value_columns(df=test_df, report_key_name="missing_value_test_dataset")
 
             #dropping categorical columns
-            logging.info(f"dropping categorical columns in base_df, train_df, test_df")
-            base_df = base_df[[column for column in base_df.columns if base_df[column].dtype != 'O']]
-            train_df = train_df[[column for column in train_df.columns if train_df[column].dtype != 'O']]
-            test_df = test_df[[column for column in test_df.columns if test_df[column].dtype != 'O']]
+            #logging.info(f"dropping categorical columns in base_df, train_df, test_df")
+            #base_df = base_df[[column for column in base_df.columns if base_df[column].dtype != 'O']]
+            #train_df = train_df[[column for column in train_df.columns if train_df[column].dtype != 'O']]
+            #test_df = test_df[[column for column in test_df.columns if test_df[column].dtype != 'O']]
 
-            logging.info(f"excluding non-float columns in base_df, train_df, test_df")
-            exclude_columns = ["class"]
+            logging.info(f"excluding non-float columns in base_df, train_df, test_df") #this can be dynamically done by wrtting a line to exclude categorical columns like in the code above
+            exclude_columns = ['URL', 'Label', 'domain_name', 'path', 'query_string', 'fragment']
             base_df = utils.convert_columns_float(df = base_df, exclude_columns = exclude_columns)
             train_df = utils.convert_columns_float(df = train_df, exclude_columns = exclude_columns)
             test_df = utils.convert_columns_float(df = test_df, exclude_columns = exclude_columns)
