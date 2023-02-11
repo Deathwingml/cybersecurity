@@ -1,4 +1,5 @@
 import sys, os
+import re
 from cybersecurity.exception import CSecurityException
 from cybersecurity.logger import logging
 from cybersecurity.utils import get_collection_as_dataframe
@@ -6,6 +7,7 @@ from cybersecurity.entity.config_entity import DataIngestionConfig
 from cybersecurity.entity import config_entity
 from cybersecurity.components.data_ingestion import DataIngestion
 from cybersecurity.components.data_validation import DataValidation
+# from cybersecurity.components.data_ingestion import extract_url_info
 
 
 if __name__ == "__main__":

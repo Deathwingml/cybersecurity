@@ -52,8 +52,8 @@ class DataValidationConfig:
         try:
             self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir, "data_validation")
             self.report_file_path = os.path.join(self.data_validation_dir,"report.yaml")
-            self.missing_threshold:float = 0.5
-            self.base_file_path = os.path.join("smaller_cleaned_phishing_data")
+            self.missing_threshold:float = 0.99
+            self.base_file_path = os.path.join("raw_url_data.csv")
 
         except Exception as e:
 

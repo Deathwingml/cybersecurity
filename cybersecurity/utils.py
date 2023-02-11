@@ -4,12 +4,11 @@ import json
 import yaml
 import os, sys
 import dill
+import numpy as np
 
 from cybersecurity.config import mongo_client
 from cybersecurity.exception import CSecurityException
 from cybersecurity.logger import logging
-
-
 
 
 def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.DataFrame:

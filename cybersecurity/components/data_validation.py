@@ -125,10 +125,6 @@ class DataValidation:
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
             logging.info(f"Reading test dataframe")
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
-            logging.info(f"droping null value columns from train df")
-            train_df = self.drop_missing_value_columns(df=train_df, report_key_name="missing_value_train_dataset")
-            logging.info(f"droping null value columns from test df")
-            test_df = self.drop_missing_value_columns(df=test_df, report_key_name="missing_value_test_dataset")
 
             #dropping categorical columns
             #logging.info(f"dropping categorical columns in base_df, train_df, test_df")
@@ -137,7 +133,7 @@ class DataValidation:
             #test_df = test_df[[column for column in test_df.columns if test_df[column].dtype != 'O']]
 
             logging.info(f"excluding non-float columns in base_df, train_df, test_df") #this can be dynamically done by wrtting a line to exclude categorical columns like in the code above
-            exclude_columns = ['URL', 'Label', 'domain_name', 'path', 'query_string', 'fragment']
+            exclude_columns = ['URL','Label','domain_match','path_match','query_string_match','fragment_match']
             base_df = utils.convert_columns_float(df = base_df, exclude_columns = exclude_columns)
             train_df = utils.convert_columns_float(df = train_df, exclude_columns = exclude_columns)
             test_df = utils.convert_columns_float(df = test_df, exclude_columns = exclude_columns)

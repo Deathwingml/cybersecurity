@@ -6,6 +6,7 @@ from cybersecurity.logger import logging
 import pandas as pd 
 import numpy as np 
 import os, sys
+import re
 from sklearn.model_selection import train_test_split
 
 
@@ -21,6 +22,7 @@ class DataIngestion:
 
 
     def initiate_data_ingestion(self)->artifact_entity.DataIngestionArtifact:
+        CHARACTER_LIST = ['.','-','_','/','?','=','@','&','!',' ',',','+','*','#','$','%']
         try:
             logging.info(f"Exporting collection data as pandas dataframe")
             #exporting collection data as pandas dataframe
@@ -28,9 +30,55 @@ class DataIngestion:
                 database_name=self.data_ingestion_config.database_name, 
                 collection_name= self.data_ingestion_config.collection_name)
 
+            def extract_url_info(url):
+                try:
+                    domain_match = re.search("^[^/]+", url)
+                    path_match = re.search("/[^?]+", url)
+                    query_string_match = re.search("\?[^#]+", url)
+                    fragment_match = re.search("#[^/]+", url)
+                    return domain_match, path_match, query_string_match, fragment_match
+
+                except Exception as e:
+                    raise CSecurityException(e, sys)
+
             #logging.info(f"extracting only numperic columns from the dataset")
             #converting df to df-numeric
             #df = df[[column for column in df.columns if df[column].dtype != 'O']]
+            
+            #Extracting domain, path, query string, fragment
+            logging.info(f"extracting domain, path, query string, fragment")
+            df[['domain_match', 'path_match', 'query_string_match', 'fragment_match']] = df['URL'].apply(lambda x: pd.Series(extract_url_info(x)))
+            df['domain_match'] = df['domain_match'].apply(lambda x: x.group() if x else None)
+            df['path_match'] = df['path_match'].apply(lambda x: x.group() if x else None)
+            df['query_string_match'] = df['query_string_match'].apply(lambda x: x.group() if x else None)
+            df['fragment_match'] = df['fragment_match'].apply(lambda x: x.group() if x else None)
+
+
+            def count_character_in_url(url, character):
+                try:
+                    count = {}
+                    for c in CHARACTER_LIST:
+                        count[c] = url.count(c)
+                    return pd.Series(count)
+                except Exception as e:
+                    raise CSecurityException(e, sys)
+
+            #Extracting character counts from the url and creating columns
+            logging.info(f"extracting character counts from the url and creating columns")
+            df[["qty_dot_url", "qty_hyphen_url", "qty_underline_url", "qty_slash_url", "qty_question_url",
+                "qty_equal_sign_url", "qty_at_sign_url", "qty_and_sign_url", "qty_exclamation_url", "qty_space_url",
+                "qty_comma_url", "qty_plus_url", "qty_star_url", "qty_hash_url", "qty_dollar_url", "qty_percent_url"]] = df["URL"].apply(lambda x: count_character_in_url(x, CHARACTER_LIST))
+
+            def url_len(url):
+                try:
+                    return len(url)
+                except Exception as e:
+                    raise CSecurityException(e, sys)
+
+            #Creating a column for URL length
+            logging.info(f"Creating a column for URL length")
+            df["url_length"] = df["URL"].apply(lambda x: url_len(x))
+
 
             logging.info(f"replace na with np.NAN")
             #save data in feature store
