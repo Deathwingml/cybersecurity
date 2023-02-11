@@ -13,6 +13,7 @@ class DataIngestion:
     
     def __init__(self, data_ingestion_config:config_entity.DataIngestionConfig):
         try:
+            logging.info(f"{'>>'*20} Data Ingestion {'<<'*20}")
             self.data_ingestion_config = data_ingestion_config
         
         except Exception as e:
@@ -26,6 +27,10 @@ class DataIngestion:
             df:pd.DataFrame = utils.get_collection_as_dataframe(
                 database_name=self.data_ingestion_config.database_name, 
                 collection_name= self.data_ingestion_config.collection_name)
+
+            #logging.info(f"extracting only numperic columns from the dataset")
+            #converting df to df-numeric
+            #df = df[[column for column in df.columns if df[column].dtype != 'O']]
 
             logging.info(f"replace na with np.NAN")
             #save data in feature store

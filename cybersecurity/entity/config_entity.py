@@ -11,7 +11,7 @@ TARGET_ENCODER_OBJECT_FILE_NAME = "target_encoder.pkl"
 MODEL_FILENAME = "model.pkl"
 
 
-class TrainingPipelineConfig:
+class TrainingPipelineConfig: #creating a class which will create an artifact folder to store all the files generated in the trianing pipeline
 
     def __init__(self):
         try:
@@ -19,7 +19,7 @@ class TrainingPipelineConfig:
         except Exception as e:
             raise CSecurityException(e, sys)
 
-class DataIngestionConfig:
+class DataIngestionConfig: #create a folder within artifact folder with the data ingestion output
 
     def __init__(self, training_pipeline_config: TrainingPipelineConfig):
         try:
@@ -46,7 +46,22 @@ class DataIngestionConfig:
 
 
 
-class DataValidationConfig:...
+class DataValidationConfig:
+
+    def __init__(self, training_pipeline_config: TrainingPipelineConfig):
+        try:
+            self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir, "data_validation")
+            self.report_file_path = os.path.join(self.data_validation_dir,"report.yaml")
+            self.missing_threshold:float = 0.5
+            self.base_file_path = os.path.join("smaller_cleaned_phishing_data")
+
+        except Exception as e:
+
+            raise CSecurityException(e, sys)
+
+
+
+
 class DataTransformationConfig:...
 class ModelTrainerConfig:...
 class ModelEvaluationConfig:...
