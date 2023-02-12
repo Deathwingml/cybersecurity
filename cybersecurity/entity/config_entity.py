@@ -85,5 +85,13 @@ class ModelTrainerConfig:
             raise CSecurityException(e, sys)
 
 
-class ModelEvaluationConfig:...
+class ModelEvaluationConfig:
+        def __init__(self,training_pipeline_config: TrainingPipelineConfig):
+            try:
+                self.change_threshold = 0.01  #we'll accept the new model when there is atleast an improvement of 1%
+  
+            except Exception as e:
+                raise CSecurityException(e, sys)
+
+
 class ModelPusherConfig:...
