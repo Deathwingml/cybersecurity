@@ -61,7 +61,7 @@ def convert_columns_float(df:pd.DataFrame, exclude_columns:list):
         raise CSecurityException(e, sys)
 
 
-def save_object(fiel_path: str, obj: object)-> None:
+def save_object(file_path:str, obj:object)-> None:
     try:
         logging.info("Entered the save object method of MainUtils class")
         os.makedirs(os.path.dirname(file_path), exist_ok=True)

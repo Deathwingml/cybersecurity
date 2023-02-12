@@ -18,4 +18,5 @@ env_var = EnvironmentVariable()
 mongo_client = pymongo.MongoClient(env_var.mongo_db_url)
 
 TARGET_COLUMN = "Label"
-
+EXCLUDE_COLUMNS = ['URL','Label','domain_match','path_match','query_string_match','fragment_match']
+CHARACTER_LIST = ['.','-','_','/','?','=','@','&','!',' ',',','+','*','#','$','%']

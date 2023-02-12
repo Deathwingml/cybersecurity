@@ -3,6 +3,7 @@ from cybersecurity.entity import config_entity
 from cybersecurity.entity import artifact_entity
 from cybersecurity.exception import CSecurityException
 from cybersecurity.logger import logging
+from cybersecurity.config import CHARACTER_LIST
 import pandas as pd 
 import numpy as np 
 import os, sys
@@ -22,7 +23,7 @@ class DataIngestion:
 
 
     def initiate_data_ingestion(self)->artifact_entity.DataIngestionArtifact:
-        CHARACTER_LIST = ['.','-','_','/','?','=','@','&','!',' ',',','+','*','#','$','%']
+        
         try:
             logging.info(f"Exporting collection data as pandas dataframe")
             #exporting collection data as pandas dataframe
@@ -53,7 +54,6 @@ class DataIngestion:
             df['query_string_match'] = df['query_string_match'].apply(lambda x: x.group() if x else None)
             df['fragment_match'] = df['fragment_match'].apply(lambda x: x.group() if x else None)
 
-
             def count_character_in_url(url, character):
                 try:
                     count = {}
@@ -79,6 +79,11 @@ class DataIngestion:
             logging.info(f"Creating a column for URL length")
             df["url_length"] = df["URL"].apply(lambda x: url_len(x))
 
+            logging.info(f"Moving the Lable column to the last position")
+            # Get the column to move
+            col = df.pop("Label")
+            # Insert the column to a new position (here, it's being inserted at the end)
+            df.insert(len(df.columns), "Label", col)
 
             logging.info(f"replace na with np.NAN")
             #save data in feature store
