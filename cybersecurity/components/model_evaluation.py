@@ -3,8 +3,12 @@ from cybersecurity.exception import CSecurityException
 from cybersecurity.logger import logging
 from cybersecurity.entity import config_entity, artifact_entity
 from cybersecurity import utils
+from cybersecurity.utils import load_object
+from cybersecurity.config import TARGET_COLUMN
 
+from sklearn.metrics import f1_score
 import os, sys
+import pandas as pd
 
 
 class ModelEvaluation:
@@ -35,6 +39,56 @@ class ModelEvaluation:
                 logging.info(f"Model Evaluation Artifact: {model_eval_artifact}")
                 return model_eval_artifact
 
+
+            #finding the location of transformer, model, and target_encoder
+            logging.info(f"Finding the location of previously trained transformer, model, and target_encoder")
+            transformer_path = self.model_resolver.get_latest_transformer_path()
+            model_path = self.model_resolver.get_latest_model_path()
+            target_encoder_path = self.model_resolver.get_latest_target_encoder_path()
+
+            #loading previously objects
+            logging.info(f"Loading previously trained transformer, model, and target_encoder")
+            transformer = load_object(file_path=transformer_path)
+            model = load_object(file_path=model_path)
+            target_encoder = load_object(file_path=target_encoder_path)
+
+            #currently trained model objects
+            logging.info(f"Loading currently trained transformer, model, and target_encoder")
+            current_transformer = load_object(file_path=self.data_transformation_artifact.transform_object_path)
+            current_model = load_object(file_path=self.model_trainer_artifact.model_path)
+            current_target_encoder = load_object(file_path=self.data_transformation_artifact.target_encoder_path)
+
+            logging.info(f"Loading test_df from data ingestion to get target column and make predictions")
+            test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
+            target_df = test_df[TARGET_COLUMN]
+            y_true = target_encoder.transform(target_df)
+
+            #Accuracy using previously trained model
+            logging.info(f"Calculating accuracy for previously trained model")
+            input_arr = transformer.transform(test_df)
+            y_pred = model.predict(input_arr) #target_encoder.inverse_transform(prediction[:5]) -- put this in next line if needed
+
+            logging.info(f"prediction using previous model{target_encoder.inverse_transform(y_pred[:5])}")
+            previous_model_score = f1_score(y_true=y_true, y_pred = y_pred)
+
+            #Accuracy using current trained model
+            logging.info(f"Calculating accuracy for currently trained model")
+            input_arr = current_transformer.transform(test_df)
+            y_pred = current_model.predict(input_arr)
+            y_true = current_target_encoder.transform(target_df)
+
+            logging.info(f"prediction using current model{target_encoder.inverse_transform(y_pred[:5])}")
+            previous_model_score = f1_score(y_true=y_true, y_pred = y_pred)
+            current_model_score = f1_score(y_true=y_true, y_pred = y_pred)
+            
+            logging.info(f"Compairing previous and current model")
+            if current_model_score < previous_model_score:
+                raise Exception(f"Current trained model is not better than previously trained model")
+
+            model_eval_artifact = artifact_entity.ModelEvaluationArtifact(is_model_accepted=True, 
+                                                                            improved_accuracy=current_model_score-previous_model_score)
+            logging.info(f"Model Evaluation Artifact: {model_eval_artifact}")
+            return model_eval_artifact
 
         except Exception as e:
             raise CSecurityException(e, sys)
