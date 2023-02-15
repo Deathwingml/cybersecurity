@@ -28,8 +28,12 @@ class ModelTrainerArtifact: #creating a structure for model trainer artifact
 
 
 @dataclass
-class ModelEvaluationArtifact:
+class ModelEvaluationArtifact: #creating a structure for model Evaluation artifact
     is_model_accepted:bool
     improved_accuracy:float
 
-class ModelPusherArtifact:...
+
+@dataclass
+class ModelPusherArtifact: #creating a structure for model pusher artifact
+    pusher_model_dir:str
+    saved_model_dir:str

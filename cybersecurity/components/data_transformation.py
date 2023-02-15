@@ -16,6 +16,7 @@ from cybersecurity import utils
 from cybersecurity.config import TARGET_COLUMN, EXCLUDE_COLUMNS
 
 
+
 class DataTransformation:
 
     def __init__(self,data_transformation_config:config_entity.DataTransformationConfig,
@@ -83,7 +84,7 @@ class DataTransformation:
 
             #Sampling
             logging.info(f"initiate sampling")
-            smt = SMOTETomek(sampling_strategy= "minority")
+            smt = SMOTETomek(sampling_strategy= "minority",random_state=1)
             logging.info(f"Before resampling in training set Input: {input_feature_train_arr.shape} Target:{target_feature_train_arr.shape}")
             input_feature_train_arr, target_feature_train_arr = smt.fit_resample(input_feature_train_arr, target_feature_train_arr)
             logging.info(f"After resampling in training set Input: {input_feature_train_arr.shape} Target:{target_feature_train_arr.shape}")
