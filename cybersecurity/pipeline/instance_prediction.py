@@ -23,6 +23,16 @@ def start_instance_prediction(input_url):
         user_input_data = {"URL": [input_url]} # input_url is the URL you want to make predictions on
         df = pd.DataFrame(user_input_data) # putting the user input in dataframe for the model
 
+        def remove_trailing_slash(url):
+                if url.endswith('/'):
+                    url = url[:-1]
+                    return url
+                else:
+                    return url
+
+        logging.info(f"removing trailing / from the url")
+        df["URL"] = df["URL"].apply(remove_trailing_slash)
+
         def count_character_in_url(url, character):
             try:
                 count = {}

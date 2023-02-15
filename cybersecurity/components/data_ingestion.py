@@ -30,6 +30,18 @@ class DataIngestion:
             df:pd.DataFrame = utils.get_collection_as_dataframe(
                 database_name=self.data_ingestion_config.database_name, 
                 collection_name= self.data_ingestion_config.collection_name)
+            
+
+            def remove_trailing_slash(url):
+                if url.endswith('/'):
+                    url = url[:-1]
+                    return url
+                else:
+                    return url
+
+            logging.info(f"removing trailing / from the url")
+            df["URL"] = df["URL"].apply(remove_trailing_slash)
+            
 
             def extract_url_info(url):
                 try:
@@ -84,6 +96,9 @@ class DataIngestion:
             col = df.pop("Label")
             # Insert the column to a new position (here, it's being inserted at the end)
             df.insert(len(df.columns), "Label", col)
+
+            logging.info(f"replace 'bad':'neg', 'good':'pos'")
+            df["Label"].replace({'bad':'neg','good':'pos'}, inplace = True)
 
             logging.info(f"replace na with np.NAN")
             #save data in feature store
