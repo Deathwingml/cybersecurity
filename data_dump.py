@@ -1,9 +1,9 @@
 import pymongo
 import json
 import pandas as pd
+import os,sys
+from cybersecurity.config import mongo_client
 
-#MongoDB local host url to connect to the DB
-client = pymongo.MongoClient("mongodb://localhost:27017/")
 
 DATA_FILE_PATH = "/config/workspace/raw_url_data.csv"
 DATABASE_NAME = "cybersecurity"
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     print(json_record)
 
     #insert converted json record to mongo db
-    client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_record)
+    mongo_client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_record)
 
 
 
