@@ -60,4 +60,4 @@ ________________________________________________________________________________
 
 ***Batch prediction*** is the process of applying a machine learning model to a large set of inputs and obtaining the corresponding output predictions in a batch, rather than one at a time. It is typically used for time-sensitive applications, where the goal is to process a large amount of data as quickly and efficiently as possible, rather than focusing on individual predictions.
 
-***Instance prediction*** refers to the prediction of a target variable for a single instance or observation in a dataset. This is typically done by inputting the feature values for a specific instance into a trained machine learning model and getting a prediction for the target variable.
+***Instance prediction*** refers to the prediction of a target variable for a single instance or observation in a dataset. This is typically done by inputting the feature values for a specific instance into a trained machine learning model and getting a prediction for the target variable..
