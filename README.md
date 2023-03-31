@@ -1,5 +1,7 @@
 * This project helps identifying Phishing URL
-_____________________________________________________________________________________________________________________________________________________________________### Description:
+___________________________________________________________________________________________________________________________________________________
+
+### Description:
 
 * Phishing stands for a fraudulent process, where an attacker tries to obtain sensitive information from the victim. Usually, these kinds of attacks are done via emails, text messages, or websites. Phishing websites, which are nowadays in a considerable rise, have the same look as legitimate sites. However, their backend is designed to collect sensitive information that is inputted by the victim.
 
