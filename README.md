@@ -1,14 +1,21 @@
 * This project helps identifying Phishing URL
+_____________________________________________________________________________________________________________________________________________________________________### Description:
 
+* Phishing stands for a fraudulent process, where an attacker tries to obtain sensitive information from the victim. Usually, these kinds of attacks are done via emails, text messages, or websites. Phishing websites, which are nowadays in a considerable rise, have the same look as legitimate sites. However, their backend is designed to collect sensitive information that is inputted by the victim.
 
+* This work discusses the implementation of a Machine learning algorithm to identify potential phishing attempts using the URL shared by the users and help them understand if they’ll be safe if the link is opened. 
 
+* We won’t be opening the link to identify a potential phishing URL.
+* We have used Random Forest Classifer model for this project
+* Research paper: https://www.sciencedirect.com/science/article/pii/S2352340920313202
+____________________________________________________________________________________________________________________________________________________________________
+### Dataset:
 
+* To download the dataset, please follow this link: https://data.mendeley.com/datasets/72ptz43s9v/1
+* Environment used: Neurolab-> neurolab-mongo-python
 
-
-# neurolab-mongo-python
-
-
-###Step 1 - Install the requirements
+____________________________________________________________________________________________________________________________________________________________________
+### Step 1 - Install the requirements
 
 ```bash
 pip install -r requirements.txt
@@ -66,5 +73,12 @@ ________________________________________________________________________________
 ***Model Evaluation***
 
 ***Batch prediction*** is the process of applying a machine learning model to a large set of inputs and obtaining the corresponding output predictions in a batch, rather than one at a time. It is typically used for time-sensitive applications, where the goal is to process a large amount of data as quickly and efficiently as possible, rather than focusing on individual predictions.
-
+____________________________________________________________________________________________________________________________________________________________________
 ***Instance prediction*** refers to the prediction of a target variable for a single instance or observation in a dataset. This is typically done by inputting the feature values for a specific instance into a trained machine learning model and getting a prediction for the target variable..
+
+____________________________________________________________________________________________________________________________________________________________________
+***Deployment*** is done using AWS - EC2 & Airflow
+
+Please go through "Cybersecurity Expalanaiton file" folder for more information on the project
+
+
